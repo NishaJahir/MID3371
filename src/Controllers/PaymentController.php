@@ -120,6 +120,8 @@ class PaymentController extends Controller
 	 *
 	 */
 	public function paymentResponse() {
+		$wish = $this->sessionStorage->getPlugin()->getValue('orderContactWish');
+		$this->getLogger(__METHOD__)->error('wish', $wish);
 		$responseData = $this->request->all();
 		$isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
 		$notificationMessage = $this->paymentHelper->getNovalnetStatusText($responseData);
