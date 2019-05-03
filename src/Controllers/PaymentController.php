@@ -28,7 +28,7 @@ use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository;
 use Plenty\Plugin\Log\Loggable;
 use IO\Services\SessionStorageService;
-use IO\Constants\SessionStorageKeys
+use IO\Constants\SessionStorageKeys;
 /**
  * Class PaymentController
  *
