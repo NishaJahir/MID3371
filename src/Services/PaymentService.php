@@ -135,7 +135,8 @@ class PaymentService
     public function validateResponse()
     {
         $nnPaymentData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
-
+			$data= $this->sessionStorage->getPlugin()->getValue('orderContactWish');
+	    $this->getLogger(__METHOD__)->error('data', $data);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', null);
         
         $nnPaymentData['order_no']       = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
