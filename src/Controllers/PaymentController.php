@@ -155,11 +155,6 @@ class PaymentController extends Controller
 		$billingAddressId = $basket->customerInvoiceAddressId;
 		$address = $this->addressRepository->findAddressById($billingAddressId);
 		
-		$sessionStorage = pluginApp(SessionStorageService::class);
-		$this->getLogger(__METHOD__)->error('p1', $sessionStorage);
-		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		$this->getLogger(__METHOD__)->error('p2', $wish1);
-		
 		$serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
 		$this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
 		$guarantee_payments = [ 'NOVALNET_SEPA', 'NOVALNET_INVOICE' ];        
@@ -235,6 +230,10 @@ class PaymentController extends Controller
 		$notificationMessage = $this->paymentHelper->getNovalnetStatusText($responseData);
 		$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
 		$isPaymentSuccess = isset($responseData['status']) && $responseData['status'] == '100';
+		
+		$sessionStorage = pluginApp(SessionStorageService::class);
+		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		$this->getLogger(__METHOD__)->error('cooments', $wish1);
 		
 		if($isPaymentSuccess)
 		{			
