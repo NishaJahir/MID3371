@@ -123,6 +123,7 @@ class PaymentController extends Controller
 	public function paymentResponse() {
 		
 		$sessionStorage = pluginApp(SessionStorageService::class);
+		$this->getLogger(__METHOD__)->error('contact', $sessionStorage);
 		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
 		$this->getLogger(__METHOD__)->error('wish1', $wish1);
 		$responseData = $this->request->all();
