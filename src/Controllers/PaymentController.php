@@ -27,8 +27,7 @@ use Novalnet\Services\PaymentService;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository;
 use Plenty\Plugin\Log\Loggable;
-use IO\Services\SessionStorageService;
-use IO\Constants\SessionStorageKeys;
+
 /**
  * Class PaymentController
  *
@@ -136,10 +135,6 @@ class PaymentController extends Controller
 		$paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
 		$this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $responseData));
 		
-		$sessionStorage = pluginApp(SessionStorageService::class);
-		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		$this->getLogger(__METHOD__)->error('wish1', $wish1);
-		
 		$this->paymentService->validateResponse();
 		return $this->response->redirectTo('confirmation');
 	}
@@ -231,10 +226,6 @@ class PaymentController extends Controller
 		$notificationMessage = $this->paymentHelper->getNovalnetStatusText($responseData);
 		$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
 		$isPaymentSuccess = isset($responseData['status']) && $responseData['status'] == '100';
-		
-		$sessionStorage = pluginApp(SessionStorageService::class);
-		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		$this->getLogger(__METHOD__)->error('cooments', $wish1);
 		
 		if($isPaymentSuccess)
 		{			
