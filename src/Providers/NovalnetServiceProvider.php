@@ -204,11 +204,12 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
-	 	$sessionStorage = pluginApp(SessionStorageService::class);
+	 	
+                    if($paymentHelper->getPaymentKeyByMop($event->getMop()))
+                    {	
+			    $sessionStorage = pluginApp(SessionStorageService::class);
 		$customerWish = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
 		$this->getLogger(__METHOD__)->error('customercomments', $customerWish);
-                    if($paymentHelper->getPaymentKeyByMop($event->getMop()))
-                    {		
 						$paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());	
 						$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
 						$basket = $basketRepository->load();			
