@@ -33,7 +33,8 @@ use Novalnet\Services\PaymentService;
 use Novalnet\Services\TransactionService;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository;
-
+use IO\Services\SessionStorageService;
+use IO\Constants\SessionStorageKeys;
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
 use Novalnet\Methods\NovalnetPrepaymentPaymentMethod;
@@ -348,8 +349,14 @@ class NovalnetServiceProvider extends ServiceProvider
                     $sessionStorage->getPlugin()->setValue('paymentkey', $paymentKey);
 
                     if(!$paymentService->isRedirectPayment($paymentKey)) {
+			    $sessionStorage = pluginApp(SessionStorageService::class);
+		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		$this->getLogger(__METHOD__)->error('direct', $wish1);
                         $paymentService->validateResponse();
                     } else {
+			    $sessionStorage = pluginApp(SessionStorageService::class);
+		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		$this->getLogger(__METHOD__)->error('redirect', $wish1);
                         $paymentProcessUrl = $paymentService->getRedirectPaymentUrl();
                         $event->setType('redirectUrl');
                         $event->setValue($paymentProcessUrl);
