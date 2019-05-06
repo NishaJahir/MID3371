@@ -26,8 +26,7 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Modules\Frontend\Services\AccountService;
 use Novalnet\Constants\NovalnetConstants;
 use Novalnet\Services\TransactionService;
-use IO\Services\SessionStorageService;
-use IO\Constants\SessionStorageKeys;
+
 
 /**
  * Class PaymentService
@@ -204,10 +203,9 @@ class PaymentService
                 $requestData['paid_amount'] = '0';
             }
 	   
-		$sessionStorage = pluginApp(SessionStorageService::class);
-		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		$this->getLogger(__METHOD__)->error('service', $wish1);	
 		
+	    $customerComments = $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);	
+		 $this->getLogger(__METHOD__)->error('customer', $customerComments);
             $transactionComments = $this->getTransactionComments($requestData);
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
@@ -235,6 +233,7 @@ class PaymentService
     {
         $lang = strtolower((string)$requestData['lang']);
 		$comments = '';
+	    
         $comments .= PHP_EOL . $this->paymentHelper->getTranslatedText('nn_tid', $lang) . $requestData['tid'];
 	    
         if(!empty($requestData['test_mode'])) {
