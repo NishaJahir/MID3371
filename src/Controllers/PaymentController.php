@@ -122,10 +122,6 @@ class PaymentController extends Controller
 	 */
 	public function paymentResponse() {
 		
-		$sessionStorage = pluginApp(SessionStorageService::class);
-		$this->getLogger(__METHOD__)->error('contact', $sessionStorage);
-		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		$this->getLogger(__METHOD__)->error('wish1', $wish1);
 		$responseData = $this->request->all();
 		$isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
 		$notificationMessage = $this->paymentHelper->getNovalnetStatusText($responseData);
@@ -139,6 +135,11 @@ class PaymentController extends Controller
 		$responseData['amount']    = $this->paymentHelper->decodeData($responseData['amount'], $responseData['uniqid']) / 100;
 		$paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
 		$this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $responseData));
+		
+		$sessionStorage = pluginApp(SessionStorageService::class);
+		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		$this->getLogger(__METHOD__)->error('wish1', $wish1);
+		
 		$this->paymentService->validateResponse();
 		return $this->response->redirectTo('confirmation');
 	}
