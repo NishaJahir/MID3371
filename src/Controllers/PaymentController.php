@@ -154,6 +154,12 @@ class PaymentController extends Controller
 		$basket = $this->basketRepository->load();	
 		$billingAddressId = $basket->customerInvoiceAddressId;
 		$address = $this->addressRepository->findAddressById($billingAddressId);
+		
+		$sessionStorage = pluginApp(SessionStorageService::class);
+		$this->getLogger(__METHOD__)->error('p1', $sessionStorage);
+		$wish1 = $sessionStorage->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		$this->getLogger(__METHOD__)->error('p2', $wish1);
+		
 		$serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
 		$this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
 		$guarantee_payments = [ 'NOVALNET_SEPA', 'NOVALNET_INVOICE' ];        
