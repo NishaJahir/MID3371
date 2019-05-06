@@ -204,7 +204,7 @@ class PaymentService
             }
 	   
 		
-	    $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish', $customerWish);	
+	    $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');	
 		 $this->getLogger(__METHOD__)->error('customer', $customerComments);
             $transactionComments = $this->getTransactionComments($requestData);
             $this->paymentHelper->createPlentyPayment($requestData);
