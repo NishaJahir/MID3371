@@ -205,8 +205,8 @@ class PaymentService
 	   
 		
 	    $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-	    $this->sessionStorage->getPlugin()->setValue($customerComments, '');
-            $transactionComments = $customerComments . '</br>' . $this->getTransactionComments($requestData);
+	    $this->sessionStorage->getPlugin()->setValue('customerWish', null);
+            $transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);
 	    $this->getLogger(__METHOD__)->error('transactioncomments', $transactionComments);
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
