@@ -213,7 +213,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		   $test =  ['nisha', 'nishra'];
 		   $this->getLogger(__METHOD__)->error('89', $orderPdfGenerationModel);
-		    $orderPdfGenerationModel->advice = $test;
+		    $orderPdfGenerationModel->advice = implode($test);
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    
             }
@@ -340,6 +340,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
 									$response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
 									$responseData = $paymentHelper->convertStringToArray($response['response'], '&');	
+										$this->getLogger(__METHOD__)->error('response', $responseData);
 									if ($responseData['status'] == '100') {
 										$notificationMessage = $paymentHelper->getNovalnetStatusText($responseData); 
 									        $paymentService->pushNotification($notificationMessage, 'success', 100); 
