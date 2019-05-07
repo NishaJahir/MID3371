@@ -211,9 +211,7 @@ class NovalnetServiceProvider extends ServiceProvider
                 $order = $event->getOrder();
                
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		   $test = [ "BS PAYONE GmbH", 
-			    "DE87210700200022520120", 
-			    "DE87210700200022520120" ];
+		   $test = array ('nisha', 'nishra');
 		   $this->getLogger(__METHOD__)->error('12345', $orderPdfGenerationModel);
 		    $orderPdfGenerationModel->advice = $test;
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
