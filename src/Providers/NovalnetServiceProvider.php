@@ -35,6 +35,7 @@ use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository;
 use IO\Services\SessionStorageService;
 use IO\Constants\SessionStorageKeys;
+use Plenty\Modules\Order\Pdf\Events\OrderPdfGenerationEvent;
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
 use Novalnet\Methods\NovalnetPrepaymentPaymentMethod;
@@ -96,6 +97,8 @@ class NovalnetServiceProvider extends ServiceProvider
                           EventProceduresService $eventProceduresService)
     {
 
+	     $this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper, $logger); 
+	    
         // Register the Novalnet payment methods in the payment method container
         $payContainer->register('plenty_novalnet::NOVALNET_INVOICE', NovalnetInvoicePaymentMethod::class,
             [
@@ -200,6 +203,8 @@ class NovalnetServiceProvider extends ServiceProvider
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
         
+	    
+	    
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
@@ -360,6 +365,22 @@ class NovalnetServiceProvider extends ServiceProvider
                         $event->setValue($paymentProcessUrl);
                     }
                 }
+            }
+        );
+    }
+	
+	private function registerInvoicePdfGeneration(
+        Dispatcher $eventDispatcher,
+        PaymentHelper $paymentHelper,
+        Logger $logger
+        
+    ) {
+        // Listen for the document generation event
+        $eventDispatcher->listen(OrderPdfGenerationEvent::class,
+            function (OrderPdfGenerationEvent $event) use ($paymentHelper, $logger) {
+                /** @var Order $order */
+                $order = $event->getOrder();
+               
             }
         );
     }
