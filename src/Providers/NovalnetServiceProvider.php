@@ -374,29 +374,14 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService) {
+	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $sessionStorage) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-                
+                 $test = $sessionStorage->getPlugin()->getValue('pdfGeneration');
+		    $this->getLogger(__METHOD__)->error('test', $test);
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		    
-		  $invoicePrepaymentDetails =  [
-			  'invoice_bankname'  => 'test',
-			  'invoice_bankplace' => 'test',
-			  'amount'            => 100,
-			  'currency'          => 'EUR',
-			  'tid'               => '486903489690386',
-			  'invoice_iban'      => '4835903485093485943',
-			  'invoice_bic'       => '9503946346964',
-			  'due_date'          => 'rtretre',
-			  'product'           => '14',
-			  'order_no'          => '4332',
-			  'tid_status'        => '100',
-			  'invoice_type'      => 'INVOICE',
-			  'test_mode'	      => '1',
-			  'invoice_account_holder' => 'NovalnetAg'
-		  ];
-		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
+		  
+		 $transactionDetails = ['NR', 'Nisha', 'Nishra'];
 		    $orderPdfGenerationModel->advice = $transactionDetails;
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 
