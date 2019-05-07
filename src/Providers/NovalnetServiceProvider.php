@@ -397,7 +397,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			  'invoice_account_holder' => 'NovalnetAg'
 		  ];
 		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
-		    $orderPdfGenerationModel->advice = implode($transactionDetails);
+		    $orderPdfGenerationModel->advice = $transactionDetails;
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 
 	    }
