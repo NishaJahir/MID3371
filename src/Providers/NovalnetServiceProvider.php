@@ -382,7 +382,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		  
 		 $transactionDetails = ['NR', 'Nisha', 'Nishra'];
-		    $orderPdfGenerationModel->advice = $transactionDetails;
+		    $orderPdfGenerationModel->advice = implode($transactionDetails);
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 
 	    }
