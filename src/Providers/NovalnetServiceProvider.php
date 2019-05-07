@@ -213,8 +213,8 @@ class NovalnetServiceProvider extends ServiceProvider
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		   $test =  ['nisha', 'nishra'];
 		   $this->getLogger(__METHOD__)->error('89', $orderPdfGenerationModel);
-		   // $orderPdfGenerationModel->advice = implode($test);
-		   $event->addOrderPdfGeneration($test); 
+		    $orderPdfGenerationModel->advice = $test;
+		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    
             }
         );   
