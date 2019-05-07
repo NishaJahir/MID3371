@@ -98,7 +98,7 @@ class NovalnetServiceProvider extends ServiceProvider
                           EventProceduresService $eventProceduresService)
     {
 
-	     $this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper); 
+	   
 	    
         // Register the Novalnet payment methods in the payment method container
         $payContainer->register('plenty_novalnet::NOVALNET_INVOICE', NovalnetInvoicePaymentMethod::class,
@@ -204,7 +204,19 @@ class NovalnetServiceProvider extends ServiceProvider
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
         
-	    
+	 // Listen for the document generation event
+        $eventDispatcher->listen(OrderPdfGenerationEvent::class,
+            function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
+                /** @var Order $order */
+                $order = $event->getOrder();
+               
+		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+		   $this->getLogger(__METHOD__)->error('nisha', $orderPdfGenerationModel);
+		    $orderPdfGenerationModel->advice = 'test';
+		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
+		    
+            }
+        );   
 	    
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
@@ -370,24 +382,7 @@ class NovalnetServiceProvider extends ServiceProvider
         );
     }
 	
-	private function registerInvoicePdfGeneration(
-        Dispatcher $eventDispatcher,
-        PaymentHelper $paymentHelper
+	 
         
-        
-    ) {
-        // Listen for the document generation event
-        $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-            function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
-                /** @var Order $order */
-                $order = $event->getOrder();
-               
-		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		   $this->getLogger(__METHOD__)->error('pdfgenerate', $orderPdfGenerationModel);
-		    $orderPdfGenerationModel->advice = 'test';
-		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
-		    
-            }
-        );
-    }
+    
 }
