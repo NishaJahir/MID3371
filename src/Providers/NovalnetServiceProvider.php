@@ -371,7 +371,8 @@ class NovalnetServiceProvider extends ServiceProvider
         );
 	    
 	    
-	    
+	 $payment_type = $sessionStorage->getPlugin()->getValue('pdfGeneration');
+		    $this->getLogger(__METHOD__)->error('102', $payment_type);   
 	// Invoice PDF Generation
 	
 	// Listen for the document generation event
@@ -379,8 +380,7 @@ class NovalnetServiceProvider extends ServiceProvider
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-                $payment_type = $sessionStorage->getPlugin()->getValue('pdfGeneration');
-		    $this->getLogger(__METHOD__)->error('102', $payment_type);
+                
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		   $test =  ['nisha', 'nishra', 'hussain'];
 		   $this->getLogger(__METHOD__)->error('100', $orderPdfGenerationModel);
