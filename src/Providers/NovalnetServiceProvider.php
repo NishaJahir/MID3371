@@ -369,10 +369,9 @@ class NovalnetServiceProvider extends ServiceProvider
                 }
             }
         );
-    }
-	
-	
-	 
+	    
+	    
+	    
 	// Invoice PDF Generation
 	
 	// Listen for the document generation event
@@ -389,7 +388,12 @@ class NovalnetServiceProvider extends ServiceProvider
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 
 	    }
-	);   
+	);  
+	 
+    }
+	
+	
+	 
 
 	
 	
