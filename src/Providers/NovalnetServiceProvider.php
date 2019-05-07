@@ -379,6 +379,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$order = $event->getOrder();
                 
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+		    
 		  $invoicePrepaymentDetails =  [
 			  'invoice_bankname'  => 'test',
 			  'invoice_bankplace' => 'test',
