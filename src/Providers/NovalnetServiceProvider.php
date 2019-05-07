@@ -97,7 +97,7 @@ class NovalnetServiceProvider extends ServiceProvider
                           EventProceduresService $eventProceduresService)
     {
 
-	     $this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper, $logger); 
+	     $this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper); 
 	    
         // Register the Novalnet payment methods in the payment method container
         $payContainer->register('plenty_novalnet::NOVALNET_INVOICE', NovalnetInvoicePaymentMethod::class,
@@ -371,16 +371,16 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	private function registerInvoicePdfGeneration(
         Dispatcher $eventDispatcher,
-        PaymentHelper $paymentHelper,
-        Logger $logger
+        PaymentHelper $paymentHelper
+        
         
     ) {
         // Listen for the document generation event
         $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-            function (OrderPdfGenerationEvent $event) use ($paymentHelper, $logger) {
+            function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
                 /** @var Order $order */
                 $order = $event->getOrder();
-               
+               $this->getLogger(__METHOD__)->error('pdf', $order);
             }
         );
     }
