@@ -371,16 +371,17 @@ class NovalnetServiceProvider extends ServiceProvider
         );
     }
 	
-	$payment_type = $sessionStorage->getPlugin()->getValue('pdfGeneration');
-	 $this->getLogger(__METHOD__)->error('102', $payment_type);
+	
+	 
 	// Invoice PDF Generation
-	if (in_array($payment_type['invoice_type'], ['INVOICE', 'PREPAYMENT'])) {
+	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-
+                $payment_type = $sessionStorage->getPlugin()->getValue('pdfGeneration');
+		    $this->getLogger(__METHOD__)->error('102', $payment_type);
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		   $test =  ['nisha', 'nishra', 'hussain'];
 		   $this->getLogger(__METHOD__)->error('100', $orderPdfGenerationModel);
@@ -389,7 +390,7 @@ class NovalnetServiceProvider extends ServiceProvider
 
 	    }
 	);   
-}
+
 	
 	
         
