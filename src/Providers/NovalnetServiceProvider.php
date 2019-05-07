@@ -36,6 +36,7 @@ use Plenty\Plugin\ConfigRepository;
 use IO\Services\SessionStorageService;
 use IO\Constants\SessionStorageKeys;
 use Plenty\Modules\Order\Pdf\Events\OrderPdfGenerationEvent;
+use Plenty\Modules\Order\Pdf\Models\OrderPdfGeneration;
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
 use Novalnet\Methods\NovalnetPrepaymentPaymentMethod;
@@ -380,8 +381,10 @@ class NovalnetServiceProvider extends ServiceProvider
             function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
                 /** @var Order $order */
                 $order = $event->getOrder();
-               $this->getLogger(__METHOD__)->error('pdf', $order);
-		   $orderPdfGenerationModel = 'test';
+               
+		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+		   $this->getLogger(__METHOD__)->error('pdfgenerate', $orderPdfGenerationModel);
+		    $orderPdfGenerationModel->advice = 'test';
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    
             }
