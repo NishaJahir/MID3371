@@ -211,9 +211,9 @@ class NovalnetServiceProvider extends ServiceProvider
                 $order = $event->getOrder();
                
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		   $test = [Kontoinhaber: "BS PAYONE GmbH", 
-			    IBAN: "DE87210700200022520120", 
-			    BIC: "DE87210700200022520120" ];
+		   $test = [ "BS PAYONE GmbH", 
+			    "DE87210700200022520120", 
+			    "DE87210700200022520120" ];
 		   $this->getLogger(__METHOD__)->error('12345', $orderPdfGenerationModel);
 		    $orderPdfGenerationModel->advice = $test;
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
