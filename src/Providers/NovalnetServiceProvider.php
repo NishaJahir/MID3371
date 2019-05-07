@@ -381,6 +381,9 @@ class NovalnetServiceProvider extends ServiceProvider
                 /** @var Order $order */
                 $order = $event->getOrder();
                $this->getLogger(__METHOD__)->error('pdf', $order);
+		   $orderPdfGenerationModel = 'test';
+		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
+		    
             }
         );
     }
