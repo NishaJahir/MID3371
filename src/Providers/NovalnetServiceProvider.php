@@ -371,9 +371,10 @@ class NovalnetServiceProvider extends ServiceProvider
         );
     }
 	
-	$pdf = $sessionStorage->getPlugin()->setValue('pdfGeneration', $responseData);
+	$payment_type = $sessionStorage->getPlugin()->getValue('pdfGeneration');
+	 $this->getLogger(__METHOD__)->error('102', $payment_type);
 	// Invoice PDF Generation
-	if (in_array($pdf['invoice_type'], ['INVOICE', 'PREPAYMENT'])) {
+	if (in_array($payment_type['invoice_type'], ['INVOICE', 'PREPAYMENT'])) {
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
