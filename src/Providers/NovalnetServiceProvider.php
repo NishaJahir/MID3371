@@ -204,21 +204,6 @@ class NovalnetServiceProvider extends ServiceProvider
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
         
-	 // Listen for the document generation event
-        $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-            function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
-                /** @var Order $order */
-                $order = $event->getOrder();
-               
-		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		   $test =  ['nisha', 'nishra'];
-		   $this->getLogger(__METHOD__)->error('89', $orderPdfGenerationModel);
-		    $orderPdfGenerationModel->advice = implode($test);
-		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
-		    
-            }
-        );   
-	    
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
@@ -340,7 +325,22 @@ class NovalnetServiceProvider extends ServiceProvider
 									$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
 									$response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
 									$responseData = $paymentHelper->convertStringToArray($response['response'], '&');	
-										$this->getLogger(__METHOD__)->error('response', $responseData);
+									if (in_array($responseData['invoice_type'], ['INVOICE', 'PREPAYMENT'])) {
+										// Listen for the document generation event
+										$eventDispatcher->listen(OrderPdfGenerationEvent::class,
+										    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
+											/** @var Order $order */
+											$order = $event->getOrder();
+
+											  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+											   $test =  ['nisha', 'nishra', 'hussain'];
+											   $this->getLogger(__METHOD__)->error('100', $orderPdfGenerationModel);
+											    $orderPdfGenerationModel->advice = implode($test);
+											   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
+
+										    }
+										);   
+									}
 									if ($responseData['status'] == '100') {
 										$notificationMessage = $paymentHelper->getNovalnetStatusText($responseData); 
 									        $paymentService->pushNotification($notificationMessage, 'success', 100); 
