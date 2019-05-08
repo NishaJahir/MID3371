@@ -381,7 +381,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		   $this->getLogger(__METHOD__)->error('currency', $payments->currency);
+		   $this->getLogger(__METHOD__)->error('currency', $payments[0]->currency);
 		foreach ($payments as $payment)
 		{
 			$property = $payment->properties;
@@ -409,7 +409,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			  'invoice_bankname'  => $bankDetails->invoice_bankname,
 			  'invoice_bankplace' => $bankDetails->invoice_bankplace,
 			  'amount'            => (float) $order->amounts[0]->invoiceTotal,
-			  'currency'          => $payments->currency,
+			  'currency'          => $payments[0]->currency,
 			  'tid'               => $tid,
 			  'invoice_iban'      => $bankDetails->invoice_iban,
 			  'invoice_bic'       => $bankDetails->invoice_bic,
