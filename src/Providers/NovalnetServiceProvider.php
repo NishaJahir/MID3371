@@ -411,7 +411,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			  'amount'            => (float) $order->amounts[0]->invoiceTotal,
 			  'currency'          => $order->currency,
 			  'tid'               => $tid,
-			  'invoice_iban'      => $bankDetails->invoice_iban,,
+			  'invoice_iban'      => $bankDetails->invoice_iban,
 			  'invoice_bic'       => $bankDetails->invoice_bic,
 			  'due_date'          => $bankDetails->due_date,
 			  'product'           => '14',
