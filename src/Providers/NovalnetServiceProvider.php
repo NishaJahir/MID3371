@@ -380,36 +380,44 @@ class NovalnetServiceProvider extends ServiceProvider
 		/** @var Order $order */
 		$order = $event->getOrder();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		 $this->getLogger(__METHOD__)->error('paymentdetails', $payments);   
+		   
 		foreach ($payments as $payment)
 		{
 			$property = $payment->properties;
 			foreach($property as $proper)
-			{
+			{       
+				
+				if ($proper->typeId == 30)
+		  		{
+				   $status = $proper->value;
+		  		}
 				if ($proper->typeId == 21) 
 			        {
 				    $invoiceDetails = $proper->value;
 			         }
+				if ($proper->typeId == 1)
+				  {
+					$tid = $proper->value;
+				  }
 			}
 		}
-		   $this->getLogger(__METHOD__)->error('bankdetails', $invoiceDetails);
+		  $bankDetails = json_decode($paymentDetails); 
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    
 		  $invoicePrepaymentDetails =  [
-			  'invoice_bankname'  => 'test',
-			  'invoice_bankplace' => 'test',
-			  'amount'            => 100,
-			  'currency'          => 'EUR',
-			  'tid'               => '486903489690386',
-			  'invoice_iban'      => '4835903485093485943',
-			  'invoice_bic'       => '9503946346964',
-			  'due_date'          => 'rtretre',
+			  'invoice_bankname'  => $bankDetails->invoice_bankname,
+			  'invoice_bankplace' => $bankDetails->invoice_bankplace,
+			  'amount'            => (float) $order->amounts[0]->invoiceTotal;,
+			  'currency'          => $order->currency,
+			  'tid'               => $tid,
+			  'invoice_iban'      => $bankDetails->invoice_iban,,
+			  'invoice_bic'       => $bankDetails->invoice_bic,
+			  'due_date'          => $bankDetails->due_date,
 			  'product'           => '14',
-			  'order_no'          => '4332',
-			  'tid_status'        => '100',
-			  'invoice_type'      => 'INVOICE',
-			  'test_mode'	      => '1',
-			  'invoice_account_holder' => 'NovalnetAg'
+			  'order_no'          => $order->id,
+			  'tid_status'        => $status,
+			  'invoice_type'      => $bankDetails->invoice_type,
+			  'invoice_account_holder' => $bankDetails->invoice_account_holder
 		  ];
 		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
 		    $orderPdfGenerationModel->advice = $transactionDetails;
