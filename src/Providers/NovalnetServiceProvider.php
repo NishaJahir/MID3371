@@ -379,7 +379,7 @@ class NovalnetServiceProvider extends ServiceProvider
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $paymentRepository) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-                $payments = $this->paymentRepository->getPaymentsByOrderId( $order->id);
+                $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		 $this->getLogger(__METHOD__)->error('paymentdetails', $payments);   
 		foreach ($payments as $payment)
 		{
