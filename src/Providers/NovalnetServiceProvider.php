@@ -374,15 +374,43 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $sessionStorage) {
+	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-                 $test = $sessionStorage->getPlugin()->getValue('pdfGeneration');
-		    $this->getLogger(__METHOD__)->error('test', $test);
+                $payments = $this->paymentRepository->getPaymentsByOrderId( $order->id);
+		 $this->getLogger(__METHOD__)->error('paymentdetails', $payments);   
+		foreach ($payments as $payment)
+		{
+			$property = $payment->properties;
+			foreach($property as $proper)
+			{
+				if ($proper->typeId == 21) 
+			        {
+				    $invoiceDetails = $proper->value;
+			         }
+			}
+		}
+		   $this->getLogger(__METHOD__)->error('bankdetails', $invoiceDetails);
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		  
-		 $transactionDetails = ['Nisha', 'Nishra'];
-		    $orderPdfGenerationModel->advice = implode($transactionDetails);
+		    
+		  $invoicePrepaymentDetails =  [
+			  'invoice_bankname'  => 'test',
+			  'invoice_bankplace' => 'test',
+			  'amount'            => 100,
+			  'currency'          => 'EUR',
+			  'tid'               => '486903489690386',
+			  'invoice_iban'      => '4835903485093485943',
+			  'invoice_bic'       => '9503946346964',
+			  'due_date'          => 'rtretre',
+			  'product'           => '14',
+			  'order_no'          => '4332',
+			  'tid_status'        => '100',
+			  'invoice_type'      => 'INVOICE',
+			  'test_mode'	      => '1',
+			  'invoice_account_holder' => 'NovalnetAg'
+		  ];
+		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
+		    $orderPdfGenerationModel->advice = $transactionDetails;
 		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 
 	    }
