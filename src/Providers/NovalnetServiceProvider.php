@@ -37,6 +37,7 @@ use IO\Services\SessionStorageService;
 use IO\Constants\SessionStorageKeys;
 use Plenty\Modules\Order\Pdf\Events\OrderPdfGenerationEvent;
 use Plenty\Modules\Order\Pdf\Models\OrderPdfGeneration;
+use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
 use Novalnet\Methods\NovalnetPrepaymentPaymentMethod;
@@ -88,6 +89,7 @@ class NovalnetServiceProvider extends ServiceProvider
                           PaymentHelper $paymentHelper,
 						  AddressRepositoryContract $addressRepository,
                           PaymentService $paymentService,
+			  PaymentRepositoryContract $paymentRepository,
                           BasketRepositoryContract $basketRepository,
                           PaymentMethodContainer $payContainer,
                           PaymentMethodRepositoryContract $paymentMethodService,
@@ -374,7 +376,7 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService) {
+	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $paymentRepository) {
 		/** @var Order $order */
 		$order = $event->getOrder();
                 $payments = $this->paymentRepository->getPaymentsByOrderId( $order->id);
