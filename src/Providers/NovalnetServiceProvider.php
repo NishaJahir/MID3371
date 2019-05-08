@@ -379,9 +379,9 @@ class NovalnetServiceProvider extends ServiceProvider
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $paymentRepository) {
 		/** @var Order $order */
 		$order = $event->getOrder();
-		    $document_type = $event->getDocType();
+		$document_type = $event->getDocType();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		   $this->getLogger(__METHOD__)->error('type', $document_type);
+		   $this->getLogger(__METHOD__)->error('currency', $payments->currency);
 		foreach ($payments as $payment)
 		{
 			$property = $payment->properties;
@@ -422,8 +422,9 @@ class NovalnetServiceProvider extends ServiceProvider
 		  ];
 		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
 		    $orderPdfGenerationModel->advice = $transactionDetails;
-		   $event->addOrderPdfGeneration($orderPdfGenerationModel); 
-
+		    if ($document_type == 'invoice') {
+		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
+		    }
 	    }
 	);  
 	 
