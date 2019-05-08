@@ -422,7 +422,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		  ];
 		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
 		    $orderPdfGenerationModel->advice = $transactionDetails;
-		    if ($document_type == 'invoice') {
+		    if ($document_type != 'INVOICE') {
 		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    }
 	    }
