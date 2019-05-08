@@ -402,14 +402,14 @@ class NovalnetServiceProvider extends ServiceProvider
 				  }
 			}
 		}
-		  $bankDetails = json_decode($paymentDetails); 
+		  $bankDetails = json_decode($invoiceDetails); 
 		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    
 		  $invoicePrepaymentDetails =  [
 			  'invoice_bankname'  => $bankDetails->invoice_bankname,
 			  'invoice_bankplace' => $bankDetails->invoice_bankplace,
 			  'amount'            => (float) $order->amounts[0]->invoiceTotal,
-			  'currency'          => $order->currency,
+			  'currency'          => $payments->currency,
 			  'tid'               => $tid,
 			  'invoice_iban'      => $bankDetails->invoice_iban,
 			  'invoice_bic'       => $bankDetails->invoice_bic,
