@@ -379,8 +379,9 @@ class NovalnetServiceProvider extends ServiceProvider
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $paymentRepository) {
 		/** @var Order $order */
 		$order = $event->getOrder();
+		    $document_type = $event->getDocType();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		   
+		   $this->getLogger(__METHOD__)->error('type', $document_type);
 		foreach ($payments as $payment)
 		{
 			$property = $payment->properties;
@@ -407,7 +408,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		  $invoicePrepaymentDetails =  [
 			  'invoice_bankname'  => $bankDetails->invoice_bankname,
 			  'invoice_bankplace' => $bankDetails->invoice_bankplace,
-			  'amount'            => (float) $order->amounts[0]->invoiceTotal;,
+			  'amount'            => (float) $order->amounts[0]->invoiceTotal,
 			  'currency'          => $order->currency,
 			  'tid'               => $tid,
 			  'invoice_iban'      => $bankDetails->invoice_iban,,
