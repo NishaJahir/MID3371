@@ -401,6 +401,8 @@ class NovalnetServiceProvider extends ServiceProvider
 					return $commentsObj->listComments();
 				}
 		   );
+		    
+		  $comment = '';
 		 foreach($orderComments as $data)
 		 {
 			$comment .= (string)$data->text;
