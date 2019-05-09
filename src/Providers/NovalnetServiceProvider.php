@@ -406,8 +406,9 @@ class NovalnetServiceProvider extends ServiceProvider
 			$comment = (string)$data->text;
 			
 		 }
+		    $this->getLogger(__METHOD__)->error('ordercomments', $orderComments);
 		    $this->getLogger(__METHOD__)->error('commentsViewed', $comment);
-		
+		    
 		    $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    $orderPdfGenerationModel->advice = $comment;
 		    if ($document_type == 'invoice') {
