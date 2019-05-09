@@ -38,6 +38,9 @@ use IO\Constants\SessionStorageKeys;
 use Plenty\Modules\Order\Pdf\Events\OrderPdfGenerationEvent;
 use Plenty\Modules\Order\Pdf\Models\OrderPdfGeneration;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Modules\Comment\Contracts\CommentRepositoryContract;
+use \Plenty\Modules\Authorization\Services\AuthHelper;
+
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
 use Novalnet\Methods\NovalnetPrepaymentPaymentMethod;
@@ -381,7 +384,19 @@ class NovalnetServiceProvider extends ServiceProvider
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		   $this->getLogger(__METHOD__)->error('currency', $payments[0]->currency);
+		 
+		    $authHelper = pluginApp(AuthHelper::class);
+		    $orderComments = $authHelper->processUnguarded(
+				function () use ($order->id) {
+					$commentsObj = pluginApp(CommentRepositoryContract::class);
+					$commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $order->id]);
+					return $commentsObj->listComments();
+				}
+		   );
+		    
+		    $this->getLogger(__METHOD__)->error('com', $orderComments);
+		    
+		    
 		foreach ($payments as $payment)
 		{
 			$property = $payment->properties;
