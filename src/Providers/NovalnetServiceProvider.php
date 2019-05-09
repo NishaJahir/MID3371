@@ -379,65 +379,29 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentService, $paymentRepository) {
+	    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
 		/** @var Order $order */
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
-                $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$orderId = (int) $order->id;
-		    $authHelper = pluginApp(AuthHelper::class);
-		    $orderComments = $authHelper->processUnguarded(
+		$authHelper = pluginApp(AuthHelper::class);
+		$orderComments = $authHelper->processUnguarded(
 				function () use ($orderId) {
 					$commentsObj = pluginApp(CommentRepositoryContract::class);
 					$commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $orderId]);
 					return $commentsObj->listComments();
 				}
 		   );
-		    
-		    $this->getLogger(__METHOD__)->error('com', $orderComments);
-		    
-		    
-		foreach ($payments as $payment)
-		{
-			$property = $payment->properties;
-			foreach($property as $proper)
-			{       
-				
-				if ($proper->typeId == 30)
-		  		{
-				   $status = $proper->value;
-		  		}
-				if ($proper->typeId == 21) 
-			        {
-				    $invoiceDetails = $proper->value;
-			         }
-				if ($proper->typeId == 1)
-				  {
-					$tid = $proper->value;
-				  }
-			}
-		}
-		  $bankDetails = json_decode($invoiceDetails); 
-		  $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
-		    
-		  $invoicePrepaymentDetails =  [
-			  'invoice_bankname'  => $bankDetails->invoice_bankname,
-			  'invoice_bankplace' => $bankDetails->invoice_bankplace,
-			  'amount'            => (float) $order->amounts[0]->invoiceTotal,
-			  'currency'          => $payments[0]->currency,
-			  'tid'               => $tid,
-			  'invoice_iban'      => $bankDetails->invoice_iban,
-			  'invoice_bic'       => $bankDetails->invoice_bic,
-			  'due_date'          => $bankDetails->due_date,
-			  'product'           => '14',
-			  'order_no'          => $order->id,
-			  'tid_status'        => $status,
-			  'invoice_type'      => $bankDetails->invoice_type,
-			  'invoice_account_holder' => $bankDetails->invoice_account_holder
-		  ];
-		  $transactionDetails = $paymentService->getInvoicePrepaymentComments($invoicePrepaymentDetails);
-		    $orderPdfGenerationModel->advice = $transactionDetails;
-		    if ($document_type == 'invoice' && in_array($bankDetails->invoice_type, ['INVOICE', 'PREPAYMENT'])) {
+		 foreach($orderComments as $data)
+		 {
+			$comment = (string)$data->text;
+			
+		 }
+		    $this->getLogger(__METHOD__)->error('commentsViewed', $comment);
+		
+		    $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class)
+		    $orderPdfGenerationModel->advice = $comment;
+		    if ($document_type == 'invoice') {
 		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    }
 	    }
