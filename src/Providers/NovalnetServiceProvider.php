@@ -386,12 +386,9 @@ class NovalnetServiceProvider extends ServiceProvider
 		$document_type = $event->getDocType();
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$orderId = (int) $order->id;
-		 foreach($payments as $payment) {
-		    $mopId = $payment->mopId;
-		 }	
+		 	
 		    
-		    $this->getLogger(__METHOD__)->error('mop',$mopId);
-		    $this->getLogger(__METHOD__)->error('payment',$payments);
+		    $this->getLogger(__METHOD__)->error('mopId',$payments[0]->mopId);
 		
 		$authHelper = pluginApp(AuthHelper::class);
 		$orderComments = $authHelper->processUnguarded(
@@ -408,9 +405,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			$comment .= (string)$data->text;
 			
 		 }
-		    $this->getLogger(__METHOD__)->error('ordercomments', $orderComments);
-		    $this->getLogger(__METHOD__)->error('commentsViewed', $comment);
-		    
+		   
 		    $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    $orderPdfGenerationModel->advice = $comment;
 		    if ($document_type == 'invoice') {
