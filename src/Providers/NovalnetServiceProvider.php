@@ -392,7 +392,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		    
 		    $this->getLogger(__METHOD__)->error('mop',$mopId);
 		    $this->getLogger(__METHOD__)->error('payment',$payments);
-		if($paymentHelper->getPaymentKeyByMop($mopId))    {
+		
 		$authHelper = pluginApp(AuthHelper::class);
 		$orderComments = $authHelper->processUnguarded(
 				function () use ($orderId) {
@@ -414,7 +414,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		    }
 	    }
-	    } 
+	    
 	);  
 
 		    
