@@ -384,7 +384,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		/** @var Order $order */
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
-		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+		//$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$orderId = (int) $order->id;
 		 	
@@ -406,8 +406,7 @@ class NovalnetServiceProvider extends ServiceProvider
 			$comment .= (string)$data->text;
 			
 		 }
-		   
-		    
+		   $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    $orderPdfGenerationModel->advice = $comment;
 		    if ($document_type == 'invoice') {
 		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
