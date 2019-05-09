@@ -399,7 +399,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		 }
 		    $this->getLogger(__METHOD__)->error('commentsViewed', $comment);
 		
-		    $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class)
+		    $orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		    $orderPdfGenerationModel->advice = $comment;
 		    if ($document_type == 'invoice') {
 		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
