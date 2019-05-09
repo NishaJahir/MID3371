@@ -387,7 +387,7 @@ class NovalnetServiceProvider extends ServiceProvider
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$orderId = (int) $order->id;
 		 foreach($payments as $payment) {
-		    $mopId = $payment->mopId
+		    $mopId = $payment->mopId;
 		 }	
 		    
 		    $this->getLogger(__METHOD__)->error('mop',$mopId);
