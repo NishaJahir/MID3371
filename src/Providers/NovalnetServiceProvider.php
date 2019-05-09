@@ -380,6 +380,8 @@ class NovalnetServiceProvider extends ServiceProvider
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($paymentHelper) {
+		    
+		if($paymentHelper->getPaymentKeyByMop($event->getMop())) {
 		/** @var Order $order */
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
@@ -406,14 +408,10 @@ class NovalnetServiceProvider extends ServiceProvider
 		    }
 	    }
 	);  
-	 
-    }
-	
-	
-	 
 
-	
-	
-        
+		    
+		    
+	   }
+    }   
     
 }
