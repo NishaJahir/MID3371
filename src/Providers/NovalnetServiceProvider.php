@@ -384,12 +384,12 @@ class NovalnetServiceProvider extends ServiceProvider
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
                 $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		 
+		$orderId = (int) $order->id;
 		    $authHelper = pluginApp(AuthHelper::class);
 		    $orderComments = $authHelper->processUnguarded(
-				function () use ($order->id) {
+				function () use ($orderId) {
 					$commentsObj = pluginApp(CommentRepositoryContract::class);
-					$commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $order->id]);
+					$commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $orderId]);
 					return $commentsObj->listComments();
 				}
 		   );
