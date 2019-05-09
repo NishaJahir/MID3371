@@ -386,37 +386,30 @@ class NovalnetServiceProvider extends ServiceProvider
 		$document_type = $event->getDocType();
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		$orderId = (int) $order->id;
-		 	
 		    
-		    $this->getLogger(__METHOD__)->error('mopId',$payments[0]->mopId);
-		
-		$authHelper = pluginApp(AuthHelper::class);
-		$orderComments = $authHelper->processUnguarded(
+		if($paymentHelper->getPaymentKeyByMop($payments[0]->mopId)) {
+			$orderId = (int) $order->id;	
+			$authHelper = pluginApp(AuthHelper::class);
+			$orderComments = $authHelper->processUnguarded(
 				function () use ($orderId) {
-					$commentsObj = pluginApp(CommentRepositoryContract::class);
-					$commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $orderId]);
-					return $commentsObj->listComments();
+				  $commentsObj = pluginApp(CommentRepositoryContract::class);
+				  $commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $orderId]);
+			          return $commentsObj->listComments();
 				}
-		   );
+		         );
 		    
-		  $comment = '';
-		 foreach($orderComments as $data)
-		 {
+		       $comment = '';
+		      foreach($orderComments as $data)
+		      {
 			$comment .= (string)$data->text;
-			
-		 }
-		   
-		    $orderPdfGenerationModel->advice = $comment;
-		    if ($document_type == 'invoice') {
-		    $event->addOrderPdfGeneration($orderPdfGenerationModel); 
-		    }
-	    }
-	    
-	);  
-
-		    
-		    
+		      }
+		      $orderPdfGenerationModel->advice = $comment;
+		      if ($document_type == 'invoice') {
+		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
+		      }
+	         }
+	      } 
+	  );  
 	
     }   
     
