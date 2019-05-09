@@ -403,7 +403,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		   );
 		 foreach($orderComments as $data)
 		 {
-			$comment = (string)$data->text;
+			$comment .= (string)$data->text;
 			
 		 }
 		    $this->getLogger(__METHOD__)->error('ordercomments', $orderComments);
