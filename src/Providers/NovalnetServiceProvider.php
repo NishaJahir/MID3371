@@ -403,7 +403,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		      {
 			$comment .= (string)$data->text;
 		      }
-		      $orderPdfGenerationModel->advice = $comment;
+		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
