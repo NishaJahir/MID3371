@@ -379,7 +379,7 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentRepository) {
+	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentRepository, $sessionStorage) {
 		    
 		/** @var Order $order */
 		$order = $event->getOrder();
@@ -403,7 +403,10 @@ class NovalnetServiceProvider extends ServiceProvider
 		      {
 			$comment .= (string)$data->text;
 		      }
-		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
+			$customerComments = $sessionStorage->getPlugin()->getValue('customerWish');
+	    		$sessionStorage->getPlugin()->setValue('customerWish', null);
+			$this->getLogger(__METHOD__)->error('customer', $customerComments);
+		      $orderPdfGenerationModel->advice = $customerComments.'Novalnet Transaction Details:'. PHP_EOL . $comment;
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
