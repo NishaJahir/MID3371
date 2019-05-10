@@ -309,8 +309,8 @@ class PaymentHelper
 					$comment['referenceType'] = 'order';
 					$comment['referenceValue'] = $orderId;
 					$comment['text'] = $text;
-					//$comment['isVisibleForContact'] = true;
-					$comment['isVisibleForContact'] = false;
+					$comment['isVisibleForContact'] = true;
+					//$comment['isVisibleForContact'] = false;
 					$this->orderComment->createComment($comment);
 				}
 			);
