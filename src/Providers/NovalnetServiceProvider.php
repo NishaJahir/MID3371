@@ -215,7 +215,10 @@ class NovalnetServiceProvider extends ServiceProvider
                 {
 	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
 		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		//$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, null);
+		if (empty ($customerWish)) {
+		  $sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, 'test');
+		} 
+			
                     if($paymentHelper->getPaymentKeyByMop($event->getMop()))
                     {	
 			    
