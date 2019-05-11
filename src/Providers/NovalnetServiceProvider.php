@@ -213,11 +213,11 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
-	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
-		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		if (empty ($customerWish)) {
-		  $sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, 'test');
-		} 
+	 	//$sessionStorageValue = pluginApp(SessionStorageService::class);
+		//$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+		//if (empty ($customerWish)) {
+		 // $sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, 'test');
+		//} 
 			
                     if($paymentHelper->getPaymentKeyByMop($event->getMop()))
                     {	
@@ -406,8 +406,8 @@ class NovalnetServiceProvider extends ServiceProvider
 		      {
 			$comment .= (string)$data->text;
 		      }
-			
-		      $orderPdfGenerationModel->advice = $customerComments.'Novalnet Transaction Details:'. PHP_EOL . $comment;
+			$this->getLogger(__METHOD__)->error('pdfG', $comment);
+		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
