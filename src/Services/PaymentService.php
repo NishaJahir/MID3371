@@ -205,8 +205,16 @@ class PaymentService
 	   
 		
 	    $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-	    $this->sessionStorage->getPlugin()->setValue('customerWish', null);
-            $transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);
+		if (!empty ($customerComments)) {
+		  $invoice1 = $customerComments;
+			$this->getLogger(__METHOD__)->error('if', $invoice1);
+		} else {
+		  $invoice2 = 'test';
+			$this->getLogger(__METHOD__)->error('else', $invoice2);
+		}
+	    //$this->sessionStorage->getPlugin()->setValue('customerWish', null);
+	    //$transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);
+            $transactionComments = $this->getTransactionComments($requestData);
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
             $this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
