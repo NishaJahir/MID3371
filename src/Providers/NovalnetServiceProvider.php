@@ -406,7 +406,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		      {
 			$comment .= (string)$data->text;
 		      }
-			$this->getLogger(__METHOD__)->error('pdfG', $comment);
+			$this->getLogger(__METHOD__)->error('ooo', $orderComments);
 		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
