@@ -302,6 +302,7 @@ class PaymentHelper
 	 */
 	public function createOrderComments($orderId, $text)
 	{
+		$text = '<span id="NN_COMMENTS">'.$text.'</span>';
 		try {
 			$authHelper = pluginApp(AuthHelper::class);
 			$authHelper->processUnguarded(
