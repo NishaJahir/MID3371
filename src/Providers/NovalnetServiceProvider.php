@@ -349,7 +349,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									} 
 								} 
 							}
-			    $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
+			    //$sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
 								$event->setValue($content);
 								$event->setType($contentType);
 						} 
