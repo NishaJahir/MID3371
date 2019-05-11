@@ -213,11 +213,13 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
-	 	//$sessionStorageValue = pluginApp(SessionStorageService::class);
-		//$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-		//if (empty ($customerWish)) {
-		 // $sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, 'test');
-		//} 
+	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
+		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+			if(!empty($customerWish)){
+				$ttt = '<span id="nn_test">'.$customerWish.'</span>';
+		  		$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, $ttt);
+			}
+		
 			
                     if($paymentHelper->getPaymentKeyByMop($event->getMop()))
                     {	
@@ -349,7 +351,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									} 
 								} 
 							}
-			    //$sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
+			   // $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
 								$event->setValue($content);
 								$event->setType($contentType);
 						} 
