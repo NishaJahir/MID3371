@@ -204,14 +204,8 @@ class PaymentService
             }
 	   
 		
-	    $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-		if (!empty ($customerComments)) {
-		  $invoice1 = $customerComments;
-			$this->getLogger(__METHOD__)->error('if', $invoice1);
-		} else {
-		  $invoice2 = 'test';
-			$this->getLogger(__METHOD__)->error('else', $invoice2);
-		}
+	   // $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
+		
 	    //$this->sessionStorage->getPlugin()->setValue('customerWish', null);
 	    //$transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);
             $transactionComments = $this->getTransactionComments($requestData);
