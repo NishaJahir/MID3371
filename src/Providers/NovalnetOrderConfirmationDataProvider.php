@@ -47,9 +47,9 @@ class NovalnetOrderConfirmationDataProvider
 		$barzhlentoken = '';
 		$barzahlenurl = '';
 		$payments = $paymentRepositoryContract->getPaymentsByOrderId($order['id']);
-		foreach ($paymentDetails as $paymentDetail)
+		foreach ($payments as $payment)
 		{
-			$property = $paymentDetail->properties;
+			$property = $payment->properties;
 			foreach($property as $proper)
 			{
 			  if ($proper->typeId == 22)
