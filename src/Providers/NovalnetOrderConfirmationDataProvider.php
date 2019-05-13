@@ -47,7 +47,7 @@ class NovalnetOrderConfirmationDataProvider
 		$barzhlentoken = '';
 		$barzahlenurl = '';
 		$payments = $paymentRepositoryContract->getPaymentsByOrderId($order['id']);
-		
+		$paymentHelper->logger('method', $payments);
 		if (!empty ($order['id'])) {
 			foreach($payments as $payment)
 			{
