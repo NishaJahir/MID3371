@@ -70,9 +70,10 @@ class NovalnetOrderConfirmationDataProvider
 					$comment = '';
 					foreach($orderComments as $data)
 					{
+						
 						//$string_data = (string)$data->text;
 						//if(strpos($string_data, 'nn_test') == false){
-							$comment .= '<span id="nn_test">'.(string)$data->text.'</span>';
+							$comment .= (string)$data->text;
 							$comment .= PHP_EOL;
 						//}
 					}
