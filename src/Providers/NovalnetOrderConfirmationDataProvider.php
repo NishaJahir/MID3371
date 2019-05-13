@@ -76,6 +76,7 @@ class NovalnetOrderConfirmationDataProvider
 						//$string_data = (string)$data->text;
 						//if(strpos($string_data, 'nn_check') == false){
 							$comment .= (string)$data->text;
+						$comment .= 'test';
 						//$comment .= $com;
 							$comment .= PHP_EOL;
 						//}
