@@ -215,6 +215,7 @@ class NovalnetServiceProvider extends ServiceProvider
                 {
 	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
 		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+			$this->getLogger(__METHOD__)->error('customer',$customerWish);
 			//if(!empty($customerWish)){
 				//$ttt = '<span id="nn_test">'.$customerWish.'</span>';
 		  		$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, null);
