@@ -175,7 +175,7 @@ class PaymentService
      */
     public function executePayment($requestData, $callbackfailure = false)
     {
-	    $this->getLogger(__METHOD__)->error('execute1',$customerComments);
+	   
         try {
             if(!$callbackfailure &&  in_array($requestData['status'], ['100', '90'])) {
 				if(in_array($requestData['tid_status'], ['86', '90'])) {
@@ -206,10 +206,8 @@ class PaymentService
 	   
 		
 	   $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-		$this->getLogger(__METHOD__)->error('execute',$customerComments);
 	    $this->sessionStorage->getPlugin()->setValue('customerWish', null);
-	    $transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);
-            $transactionComments = $this->getTransactionComments($requestData);
+	    $transactionComments = $customerComments . PHP_EOL . $this->getTransactionComments($requestData);		
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
             $this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
