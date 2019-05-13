@@ -213,7 +213,7 @@ class PaymentService
 		$requestData['comments'] = $transactionComments;
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
-            //$this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
+            $this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
             return [
                 'type' => 'success',
                 'value' => $this->paymentHelper->getNovalnetStatusText($requestData)
