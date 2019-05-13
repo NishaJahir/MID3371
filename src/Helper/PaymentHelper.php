@@ -218,9 +218,9 @@ class PaymentHelper
 			$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_OF_RECEIVER, $invoiceDetails); 
 		} 
 		
-		//if ($callback) {
-		  // $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_PAYMENT_TEXT, Payment::ORIGIN_PLUGIN);	
-		//}
+		if (!empty ($requestData['comments'])) {
+		   $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_PAYMENT_TEXT, $requestData['comments']);	
+		}
 		
 		$payment->properties = $paymentProperty;
 
