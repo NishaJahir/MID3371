@@ -210,9 +210,10 @@ class PaymentService
 	   $transactionComments = '<span id="nn_check">'.'kundenwish:'. $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
 		$this->getLogger(__METHOD__)->error('transaction',$transactionComments);
 		//$transactionComments =  $this->getTransactionComments($requestData);	
-            $this->paymentHelper->createPlentyPayment($requestData, $transactionComments);
+		$requestData['comments'] = $transactionComments;
+            $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
-            $this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
+            //$this->paymentHelper->createOrderComments((int)$requestData['order_no'], $transactionComments);
             return [
                 'type' => 'success',
                 'value' => $this->paymentHelper->getNovalnetStatusText($requestData)
