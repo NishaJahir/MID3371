@@ -213,12 +213,12 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($config, $paymentHelper, $addressRepository, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
-	 	//$sessionStorageValue = pluginApp(SessionStorageService::class);
-		//$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
+	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
+		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
 			
 			//if(!empty($customerWish)){
 				//$ttt = '<span id="nn_test">'.$customerWish.'</span>';
-		  		//$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, null);
+		  		$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, null);
 			//}
 		
 			
@@ -352,7 +352,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									} 
 								} 
 							}
-			  // $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
+			  $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
 								$event->setValue($content);
 								$event->setType($contentType);
 						} 
@@ -392,10 +392,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$document_type = $event->getDocType();
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		  $sessionStorageValue = pluginApp(SessionStorageService::class);
-		 $customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);  
-		    
-		    $this->getLogger(__METHOD__)->error('test', $customerWish);
+		
 		if($paymentHelper->getPaymentKeyByMop($payments[0]->mopId)) {
 			$orderId = (int) $order->id;	
 			$authHelper = pluginApp(AuthHelper::class);
