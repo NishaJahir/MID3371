@@ -78,7 +78,7 @@ class NovalnetOrderConfirmationDataProvider
 							$comment .= $string_data;
 						//$comment .= $com;
 							$comment .= PHP_EOL;
-						//}
+						}
 					}
 
 				  $payment_type = (string)$paymentHelper->getPaymentKeyByMop($payment->mopId);
