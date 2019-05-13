@@ -179,7 +179,7 @@ class PaymentHelper
 	 */
 	public function createPlentyPayment($requestData, $callback = false)
 	{
-		$this->getLogger(__METHOD__)->error('check', $requestData);
+		
 		/** @var Payment $payment */
 		$payment = pluginApp(\Plenty\Modules\Payment\Models\Payment::class);
 
