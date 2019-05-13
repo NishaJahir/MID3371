@@ -177,8 +177,9 @@ class PaymentHelper
 	 * @param array $requestData
 	 * @return object
 	 */
-	public function createPlentyPayment($requestData)
+	public function createPlentyPayment($requestData, $callback = false)
 	{
+		$this->getLogger(__METHOD__)->error('check', $requestData);
 		/** @var Payment $payment */
 		$payment = pluginApp(\Plenty\Modules\Payment\Models\Payment::class);
 
@@ -205,6 +206,8 @@ class PaymentHelper
 			   ];
 		   
   		$invoiceDetails = json_encode($invoicePrepaymentDetails);
+		
+		
 		$paymentProperty     = [];
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BOOKING_TEXT, $transactionId);
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_ID, $transactionId);
@@ -214,6 +217,10 @@ class PaymentHelper
 		if (($requestData['invoice_type'] == 'INVOICE' && in_array($requestData['tid_status'], ['75', '91'])) || $requestData['payment_type'] == 'INVOICE_START') {
 			$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_OF_RECEIVER, $invoiceDetails); 
 		} 
+		
+		//if ($callback) {
+		  // $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_PAYMENT_TEXT, Payment::ORIGIN_PLUGIN);	
+		//}
 		
 		$payment->properties = $paymentProperty;
 
