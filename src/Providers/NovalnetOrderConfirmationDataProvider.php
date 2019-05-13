@@ -71,12 +71,12 @@ class NovalnetOrderConfirmationDataProvider
 					$comment = '';
 					foreach($orderComments as $data)
 					{
-						$com = strip_tags((string)$data->text);
+						//$com = strip_tags((string)$data->text);
 						
 						//$string_data = (string)$data->text;
 						//if(strpos($string_data, 'nn_test') == false){
-							//$comment .= (string)$data->text;
-						$comment .= $com;
+							$comment .= (string)$data->text;
+						//$comment .= $com;
 							$comment .= PHP_EOL;
 						//}
 					}
