@@ -324,7 +324,8 @@ class CallbackController extends Controller
 							$paymentData['tid']         = $this->aryCaptureParams['tid'];
 							$paymentData['order_no']    = $nnTransactionHistory->orderNo;
 							$paymentData['mop']         = $nnTransactionHistory->mopId;
-							$this->paymentHelper->createPlentyPayment($paymentData);
+							$paymentData['comment']         = $callbackComments;
+							$this->paymentHelper->createPlentyPayment($paymentData, true);
 							$this->paymentHelper->createOrderComments($nnTransactionHistory->orderNo, $callbackComments);
 							$this->sendCallbackMail($callbackComments);
 							return $this->renderTemplate($callbackComments);
