@@ -407,10 +407,10 @@ class NovalnetServiceProvider extends ServiceProvider
 		       $comment = '';
 		      foreach($orderComments as $data)
 		      {
-			      $string_data = (string)$data->text;
-			if(strpos($string_data, 'nn_check') == false) {
+			      //$string_data = (string)$data->text;
+			//if(strpos($string_data, 'nn_check') == false) {
 			//$comment .= htmlspecialchars((string)$data->text);
-			      $comment .= $string_data;
+			      $comment .= (string)$data->text;
 			}
 		      }
 			$this->getLogger(__METHOD__)->error('ooo', $orderComments);
