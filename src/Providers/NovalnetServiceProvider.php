@@ -407,8 +407,11 @@ class NovalnetServiceProvider extends ServiceProvider
 		       $comment = '';
 		      foreach($orderComments as $data)
 		      {
+			      $string_data = (string)$data->text;
+			if(strpos($string_data, 'nn_check') == false) {
 			//$comment .= htmlspecialchars((string)$data->text);
 			      $comment .= (string)$data->text;
+			}
 		      }
 			$this->getLogger(__METHOD__)->error('ooo', $orderComments);
 		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
