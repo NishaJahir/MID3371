@@ -215,10 +215,10 @@ class NovalnetServiceProvider extends ServiceProvider
                 {
 	 	$sessionStorageValue = pluginApp(SessionStorageService::class);
 		$customerWish = $sessionStorageValue->getSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH);
-			if(!empty($customerWish)){
-				$ttt = '<span id="nn_test">'.$customerWish.'</span>';
-		  		$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, $ttt);
-			}
+			//if(!empty($customerWish)){
+				//$ttt = '<span id="nn_test">'.$customerWish.'</span>';
+		  		$sessionStorageValue->setSessionValue(SessionStorageKeys::ORDER_CONTACT_WISH, null);
+			//}
 		
 			
                     if($paymentHelper->getPaymentKeyByMop($event->getMop()))
@@ -351,7 +351,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									} 
 								} 
 							}
-			   // $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
+			   $sessionStorage->getPlugin()->setValue('customerWish', $customerWish);
 								$event->setValue($content);
 								$event->setType($contentType);
 						} 
