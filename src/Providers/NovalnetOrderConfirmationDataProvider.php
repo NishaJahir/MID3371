@@ -54,7 +54,7 @@ class NovalnetOrderConfirmationDataProvider
 			{
 			  if ($proper->typeId == 22)
 				  {
-					$com = $proper->value;
+					$comment = $proper->value;
 				  }	
 			}
 		}
