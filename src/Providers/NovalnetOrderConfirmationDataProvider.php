@@ -23,6 +23,7 @@ use Plenty\Modules\Comment\Contracts\CommentRepositoryContract;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
 use \Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
+use Plenty\Plugin\Log\Loggable;
 
 /**
  * Class NovalnetOrderConfirmationDataProvider
@@ -31,6 +32,7 @@ use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFact
  */
 class NovalnetOrderConfirmationDataProvider
 {
+	use Loggable;
 	/**
 	 * Setup the Novalnet transaction comments for the requested order
 	 *
@@ -67,10 +69,12 @@ class NovalnetOrderConfirmationDataProvider
 								return $commentsObj->listComments();
 							}
 					);
+					$this->getLogger(__METHOD__)->error('123', $orderComments);
 					$comment = '';
 					foreach($orderComments as $data)
 					{
-						
+						$com = strip_tags((string)$data->text);
+						$this->getLogger(__METHOD__)->error('enter', $com);
 						//$string_data = (string)$data->text;
 						//if(strpos($string_data, 'nn_test') == false){
 							$comment .= (string)$data->text;
