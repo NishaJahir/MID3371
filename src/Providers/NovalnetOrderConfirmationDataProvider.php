@@ -70,11 +70,11 @@ class NovalnetOrderConfirmationDataProvider
 					$comment = '';
 					foreach($orderComments as $data)
 					{
-						$string_data = (string)$data->text;
-						if(strpos($string_data, 'nn_test') == false){
-							$comment .= $string_data;
+						//$string_data = (string)$data->text;
+						//if(strpos($string_data, 'nn_test') == false){
+							$comment .= (string)$data->text;
 							$comment .= PHP_EOL;
-						}
+						//}
 					}
 
 				  $payment_type = (string)$paymentHelper->getPaymentKeyByMop($payment->mopId);
