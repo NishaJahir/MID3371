@@ -177,7 +177,7 @@ class PaymentHelper
 	 * @param array $requestData
 	 * @return object
 	 */
-	public function createPlentyPayment($requestData, $callback = false)
+	public function createPlentyPayment($requestData)
 	{
 		
 		/** @var Payment $payment */
