@@ -205,11 +205,11 @@ class PaymentService
             }
 	   
 		
-	   $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-	    $this->sessionStorage->getPlugin()->setValue('customerWish', null);
-	   $transactionComments = '<span id="nn_check">'.'kundenwish:'. $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
-		$this->getLogger(__METHOD__)->error('transaction',$transactionComments);
-		//$transactionComments =  $this->getTransactionComments($requestData);	
+	 //  $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
+	  //  $this->sessionStorage->getPlugin()->setValue('customerWish', null);
+	 //  $transactionComments = '<span id="nn_check">'.'kundenwish:'. $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
+		
+		$transactionComments =  $this->getTransactionComments($requestData);	
 		$requestData['comments'] = $transactionComments;
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
