@@ -235,7 +235,7 @@ class PaymentHelper
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BANK_CODE_OF_SENDER, "test");
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BANK_NAME_OF_SENDER, "test");
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_NUMBER_OF_SENDER, "test");
-		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_HOLDER_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_HOLDER_OF_SENDER, "nisha");
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_COUNTRY_OF_SENDER_ACCOUNT, "test");
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_IBAN_OF_SENDER, "test");
 		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BIC_OF_SENDER, "test");
