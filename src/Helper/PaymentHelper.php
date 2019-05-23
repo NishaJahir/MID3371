@@ -222,6 +222,35 @@ class PaymentHelper
 		   $paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_PAYMENT_TEXT, $requestData['comments']);	
 		}
 		
+		
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_REFERENCE_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_PASSWORD, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_CODE, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_AUTHORIZATION_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_REFUND_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_CREDIT_NOTE_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ORDER_REFERENCE, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_NAME_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_EMAIL_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BANK_CODE_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BANK_NAME_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_NUMBER_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ACCOUNT_HOLDER_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_COUNTRY_OF_SENDER_ACCOUNT, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_IBAN_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BIC_OF_SENDER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_NAME_OF_RECEIVER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_INVOICE_ADDRESS_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ITEM_BUYER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ITEM_NUMBER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_ITEM_TRANSACTION_ID, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_EXTERNAL_TRANSACTION_TYPE, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_IBAN_OF_RECEIVER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_BIC_OF_RECEIVER, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_FEE, "test");
+		$paymentProperty[]   = $this->getPaymentProperty(PaymentProperty::TYPE_TRANSACTION_ENDURANCE, "test");
+
+		
 		$payment->properties = $paymentProperty;
 
 		$paymentObj = $this->paymentRepository->createPayment($payment);
