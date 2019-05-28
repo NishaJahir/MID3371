@@ -205,11 +205,11 @@ class PaymentService
             }
 	   
 		
-	 //  $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
-	  //  $this->sessionStorage->getPlugin()->setValue('customerWish', null);
-	 //  $transactionComments = '<span id="nn_check">'.'kundenwish:'. $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
+	  $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
+	   $this->sessionStorage->getPlugin()->setValue('customerWish', null);
+	  $transactionComments =  $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
 		
-		$transactionComments =  $this->getTransactionComments($requestData);	
+		//$transactionComments =  $this->getTransactionComments($requestData);	
 		$requestData['comments'] = $transactionComments;
             $this->paymentHelper->createPlentyPayment($requestData);
             $this->paymentHelper->updateOrderStatus((int)$requestData['order_no'], $requestData['order_status']);
@@ -288,7 +288,7 @@ class PaymentService
      */
     public function getInvoicePrepaymentComments($requestData, $callback=false)
     {
-	if ($requestData['tid_status'] == '100') {  
+	if (in_array ($requestData['tid_status'], ['91','100'])){  
 	
 	$comments = '';	
 	if ($callback)	{
