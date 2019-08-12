@@ -393,21 +393,20 @@ class NovalnetServiceProvider extends ServiceProvider
 		    
 		/** @var Order $order */
 		$order = $event->getOrder();
-		$document_type = $event->getDocType();
-		$payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		     $this->getLogger(__METHOD__)->error('pay', $payments);
+		$payments = $paymentRepository->getPaymentsByOrderId($order->id);
+		$this->getLogger(__METHOD__)->error('payment', $payments);
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
-		  $this->getLogger(__METHOD__)->error('check1', $paymentKey);  
-		if (in_array ($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT']) ) {
+		$this->getLogger(__METHOD__)->error('check11111', $paymentKey);
+		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
 		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
 		$test = json_decode($saved_details);
-		 $this->getLogger(__METHOD__)->error('check', $test);
+		$this->getLogger(__METHOD__)->error('check2222', $test);
 		    
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		$orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL;
 		
-		
+		$document_type = $event->getDocType();
 	
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
