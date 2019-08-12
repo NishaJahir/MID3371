@@ -395,6 +395,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
 		$payments = $paymentRepository->getPaymentsByOrderId( $order->id);
+		     $this->getLogger(__METHOD__)->error('pay', $payments);
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
 		  $this->getLogger(__METHOD__)->error('check1', $paymentKey);  
 		if (in_array ($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT']) ) {
