@@ -45,6 +45,7 @@ class TransactionService
             $transaction->transactionDatetime = date('Y-m-d H:i:s');
             $transaction->tid                 = $transactionData['tid'];
             $transaction->paymentName         = $transactionData['payment_name'];
+            $transaction->bankDetails         = $transactionData['bank_details'];
 
             $database->save($transaction);
         } catch (\Exception $e) {
