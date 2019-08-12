@@ -40,6 +40,9 @@ use Plenty\Modules\Order\Pdf\Models\OrderPdfGeneration;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
 use Plenty\Modules\Comment\Contracts\CommentRepositoryContract;
 use \Plenty\Modules\Authorization\Services\AuthHelper;
+use Plenty\Modules\Plugin\DataBase\Contracts\DataBase;
+use Plenty\Modules\Plugin\DataBase\Contracts\Query;
+use Novalnet\Models\TransactionLog;
 
 
 use Novalnet\Methods\NovalnetInvoicePaymentMethod;
@@ -100,6 +103,7 @@ class NovalnetServiceProvider extends ServiceProvider
                           TransactionService $transactionLogData,
                           Twig $twig,
                           ConfigRepository $config,
+			 DataBase $dataBase,
                           EventProceduresService $eventProceduresService)
     {
 
@@ -385,41 +389,28 @@ class NovalnetServiceProvider extends ServiceProvider
 	
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
-	    function (OrderPdfGenerationEvent $event) use ($paymentHelper, $paymentRepository) {
+	    function (OrderPdfGenerationEvent $event) use ($dataBase, $paymentHelper, $paymentRepository) {
 		    
 		/** @var Order $order */
 		$order = $event->getOrder();
 		$document_type = $event->getDocType();
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		
-		if($paymentHelper->getPaymentKeyByMop($payments[0]->mopId)) {
-			$orderId = (int) $order->id;	
-			$authHelper = pluginApp(AuthHelper::class);
-			$orderComments = $authHelper->processUnguarded(
-				function () use ($orderId) {
-				  $commentsObj = pluginApp(CommentRepositoryContract::class);
-				  $commentsObj->setFilters(['referenceType' => 'order', 'referenceValue' => $orderId]);
-			          return $commentsObj->listComments();
-				}
-		         );
+		$this->getLogger(__METHOD__)->error('details',$payments);
+		//$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('oneClickShopping', '=', '1')->where('eMail', '=', $address->email)->get();				
+		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
+		$this->getLogger(__METHOD__)->error('details',$paymentKey);
+		if (in_arrray($paymentKey , ['27', '41'])) {
+		$orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;	
+		}
 		    
-		       $comment = '';
-		      foreach($orderComments as $data)
-		      {
-			      //$string_data = (string)$data->text;
-			//if(strpos($string_data, 'nn_check') == false) {
-			//$comment .= htmlspecialchars((string)$data->text);
-			      $comment .= (string)$data->text;
-			//}
-		      }
-			$this->getLogger(__METHOD__)->error('ooo', $orderComments);
-		      $orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . $comment;
+		      
+		      
 		      if ($document_type == 'invoice') {
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
 	         }
-	      } 
+	      //~ } 
 	  );  
 	
     }   
