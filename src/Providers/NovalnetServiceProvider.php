@@ -400,7 +400,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
 		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
-		$this->getLogger(__METHOD__)->error('detail', '$saved_details'); 
+		$this->getLogger(__METHOD__)->error('detail', $saved_details); 
 		$test = json_decode($saved_details->bank_details);
 		$this->getLogger(__METHOD__)->error('check2222', $test);
 		    
