@@ -393,13 +393,14 @@ class NovalnetServiceProvider extends ServiceProvider
 		    
 		/** @var Order $order */
 		$order = $event->getOrder();
+		    $this->getLogger(__METHOD__)->error('details1',$order);
 		$document_type = $event->getDocType();
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 	        $payments = $paymentRepository->getPaymentsByOrderId( $order->id);
-		$this->getLogger(__METHOD__)->error('details',$payments);
+		$this->getLogger(__METHOD__)->error('details2',$payments);
 		
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
-		$this->getLogger(__METHOD__)->error('details',$paymentKey);
+		$this->getLogger(__METHOD__)->error('details3',$paymentKey);
 		
 		$orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . 'test';	
 		
