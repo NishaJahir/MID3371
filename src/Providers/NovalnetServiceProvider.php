@@ -401,7 +401,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
 		$this->getLogger(__METHOD__)->error('detail', $saved_details); 
-		$test = json_decode($saved_details->bank_details);
+		$test = json_decode($saved_details[0]->bankDetails);
 		$this->getLogger(__METHOD__)->error('check2222', $test);
 		    
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
