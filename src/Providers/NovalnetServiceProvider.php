@@ -390,16 +390,17 @@ class NovalnetServiceProvider extends ServiceProvider
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($dataBase, $paymentHelper, $paymentRepository) {
-		    
+		$this->getLogger(__METHOD__)->error('enter', 'enter');    
 		/** @var Order $order */
 		$order = $event->getOrder();
 		$payments = $paymentRepository->getPaymentsByOrderId($order->id);
 		$this->getLogger(__METHOD__)->error('payment', $payments);
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
-		$this->getLogger(__METHOD__)->error('check11111', $paymentKey);
+		
 		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
 		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
+		$this->getLogger(__METHOD__)->error('detail', '$saved_details'); 
 		$test = json_decode($saved_details->bank_details);
 		$this->getLogger(__METHOD__)->error('check2222', $test);
 		    
