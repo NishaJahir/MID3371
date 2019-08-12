@@ -29,7 +29,7 @@
     "Novalnet\\Migrations\\CreatePaymentMethod_2_0_2",
     "Novalnet\\Migrations\\CreatePaymentMethod_2_0_3",
     "Novalnet\\Migrations\\CreatePaymentMethod_2_0_4",
-    "Novalnet\\Migrations\\CreateTransactionTable"
+    "Novalnet\\Migrations\\CreateTransactionTable",
     "Novalnet\\Migrations\\UpdateTransactionTable"  
 	  
 	  
