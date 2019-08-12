@@ -147,8 +147,8 @@ class PaymentService
 	
 	 if (in_array($nnPaymentData['key'], ['27','41'])) {  
 	 $bank_details = [
-		'IBAN' = $nnPaymentData['invoice_iban'],
-		'BIC' = $nnPaymentData['invoice_bic']
+		'IBAN' => $nnPaymentData['invoice_iban'],
+		'BIC' => $nnPaymentData['invoice_bic']
 		
 		];
 	 }
