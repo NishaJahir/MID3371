@@ -397,7 +397,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		$payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
 		if (in_array ($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT']) ) {
-		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('order_no', '=', $order->id)->get();		
+		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
 		$this->getLogger(__METHOD__)->error('test', $saved_details);
 		    $test = json_decode($saved_details);
