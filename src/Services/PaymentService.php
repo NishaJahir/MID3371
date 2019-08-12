@@ -143,7 +143,12 @@ class PaymentService
         $nnPaymentData['mop']            = $this->sessionStorage->getPlugin()->getValue('mop');
         $nnPaymentData['payment_method'] = strtolower($this->paymentHelper->getPaymentKeyByMop($nnPaymentData['mop']));
         $this->executePayment($nnPaymentData);
-
+	
+	$bank_details = [
+		'IBAN' = $nnPaymentData['invoice_iban'],
+		'BIC' = $nnPaymentData['invoice_bic']
+		
+		];
         $transactionData = [
             'amount'           => $nnPaymentData['amount'] * 100,
             'callback_amount'  => $nnPaymentData['amount'] * 100,
@@ -151,6 +156,7 @@ class PaymentService
             'ref_tid'          => $nnPaymentData['tid'],
             'payment_name'     => $nnPaymentData['payment_method'],
             'order_no'         => $nnPaymentData['order_no'],
+	    'bank_details'    => json_encode($bank_details)
         ];
 	    
 	    
