@@ -396,15 +396,16 @@ class NovalnetServiceProvider extends ServiceProvider
 		$document_type = $event->getDocType();
 		$payments = $paymentRepository->getPaymentsByOrderId( $order->id);
 		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
+		  $this->getLogger(__METHOD__)->error('check1', $paymentKey);  
 		if (in_array ($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT']) ) {
 		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
 		}
 		$test = json_decode($saved_details);
-		 $this->getLogger(__METHOD__)->error('unserialize', $test);
+		 $this->getLogger(__METHOD__)->error('check', $test);
+		    
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
 		$orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL;
-		$orderPdfGenerationModel->advice = 'IBAN:'. PHP_EOL . $test->IBAN;
-		$orderPdfGenerationModel->advice = 'BIC:'. PHP_EOL . $test->BIC;
+		
 		
 	
 		      if ($document_type == 'invoice') {
