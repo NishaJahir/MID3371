@@ -212,7 +212,7 @@ class NovalnetServiceProvider extends ServiceProvider
             $refundProcedureTitle,
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
-	$this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper, $dataBase, $paymentRepository);
+	//$this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper, $dataBase, $paymentRepository);
         
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
