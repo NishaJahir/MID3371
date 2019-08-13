@@ -391,30 +391,21 @@ class NovalnetServiceProvider extends ServiceProvider
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($dataBase, $paymentHelper, $paymentRepository) {
 		$this->getLogger(__METHOD__)->error('entry', 'enter');    
-		/** @var Order $order */
-		if($paymentHelper->getPaymentKeyByMop($event->getMop())) {
-			$this->getLogger(__METHOD__)->error('novalnet Payment', 'Novalnet'); 
+		/** @var Order $order */ 
 		$order = $event->getOrder();
 		$payments = $paymentRepository->getPaymentsByOrderId($order->id);
-		$this->getLogger(__METHOD__)->error('payment', $payments);
-		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);
-		
-		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
-		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
-		}
-		$this->getLogger(__METHOD__)->error('detail', $saved_details); 
-		$test = json_decode($saved_details[0]->bankDetails);
-		$this->getLogger(__METHOD__)->error('check2222', $test);
-		    
+		$paymentKey = $paymentHelper->getPaymentKeyByMop($payments[0]->mopId);	
 		$orderPdfGenerationModel = pluginApp(OrderPdfGeneration::class);
+		if (in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
+			$this->getLogger(__METHOD__)->error('novalnet payment', $paymentKey);
+		$saved_details = $dataBase->query(TransactionLog::class)->where('paymentName', '=', strtolower($paymentKey))->where('orderNo', '=', $order->id)->get();		
+		$test = json_decode($saved_details[0]->bankDetails);
 		$orderPdfGenerationModel->advice = 'Novalnet Transaction Details:'. PHP_EOL . 'IBAN : ' .' '. $test->IBAN . PHP_EOL . 'BIC : ' . ' ' . $test->BIC;
-		
 		$document_type = $event->getDocType();
-	
-		      if ($document_type == 'invoice' && in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
-			      $this->getLogger(__METHOD__)->error('advice', $paymentKey);
-		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
-		      }
+	      	if ($document_type == 'invoice') {
+		$this->getLogger(__METHOD__)->error('advice', $paymentKey);
+	      	$event->addOrderPdfGeneration($orderPdfGenerationModel); 
+	      }
 	         }
 	    } 
 	  );  
