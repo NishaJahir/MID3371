@@ -363,7 +363,7 @@ class NovalnetServiceProvider extends ServiceProvider
                 });
 
 	    
-	    
+	  
         // Listen for the event that executes the payment
         $eventDispatcher->listen(ExecutePayment::class,
             function (ExecutePayment $event) use ($paymentHelper, $paymentService, $sessionStorage, $transactionLogData,$config,$basketRepository)
@@ -416,9 +416,9 @@ class NovalnetServiceProvider extends ServiceProvider
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
 	         }
-	     
+	    } 
 	  );  
-	    }
+	    
     }   
     
 }
