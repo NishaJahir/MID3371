@@ -418,7 +418,5 @@ class NovalnetServiceProvider extends ServiceProvider
 	         }
 	    } 
 	  );  
-	    
-    }   
     
 }
