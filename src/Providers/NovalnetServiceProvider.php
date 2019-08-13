@@ -409,7 +409,7 @@ class NovalnetServiceProvider extends ServiceProvider
 		
 		$document_type = $event->getDocType();
 	
-		      if ($document_type == 'invoice' && in_array(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT']), ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
+		      if ($document_type == 'invoice' && in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT'])) {
 			      $this->getLogger(__METHOD__)->error('advice', $paymentKey);
 		      $event->addOrderPdfGeneration($orderPdfGenerationModel); 
 		      }
