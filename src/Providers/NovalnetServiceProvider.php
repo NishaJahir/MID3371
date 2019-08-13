@@ -212,6 +212,7 @@ class NovalnetServiceProvider extends ServiceProvider
             $refundProcedureTitle,
             '\Novalnet\Procedures\RefundEventProcedure@run'
         );
+	$this->registerInvoicePdfGeneration($eventDispatcher, $paymentHelper, $dataBase, $paymentRepository);
         
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
@@ -384,9 +385,15 @@ class NovalnetServiceProvider extends ServiceProvider
                 }
             }
         );
-	   
+ }	   
 	// Invoice PDF Generation
-	
+	private function registerInvoicePdfGeneration(
+        Dispatcher $eventDispatcher,
+        PaymentHelper $paymentHelper,
+        Database $dataBase,
+        PaymentRepositoryContract $paymentRepository
+        
+    ) {
 	// Listen for the document generation event
 	    $eventDispatcher->listen(OrderPdfGenerationEvent::class,
 	    function (OrderPdfGenerationEvent $event) use ($dataBase, $paymentHelper, $paymentRepository) {
@@ -409,5 +416,6 @@ class NovalnetServiceProvider extends ServiceProvider
 	         }
 	    } 
 	  );  
-    }
+	}
+   
 }
