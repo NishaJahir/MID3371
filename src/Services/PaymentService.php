@@ -216,7 +216,7 @@ class PaymentService
 		
 	  $customerComments = $this->sessionStorage->getPlugin()->getValue('customerWish');
 	   $this->sessionStorage->getPlugin()->setValue('customerWish', null);
-	  $transactionComments =  $customerComments . PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
+	  $transactionComments =  $customerComments .'------------------------------------------'. PHP_EOL . $this->getTransactionComments($requestData).'</span>';	
 		
 		//$transactionComments =  $this->getTransactionComments($requestData);	
 		$requestData['comments'] = $transactionComments;
